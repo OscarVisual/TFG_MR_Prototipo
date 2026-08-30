@@ -84,9 +84,20 @@ public class AutoSkipMRTutorial : MonoBehaviour
 
     private void HideTemplateTutorialObjects()
     {
+        // Tutorial / onboarding visual
         HideObjectByName("CoachingCardRoot");
         HideObjectByName("Tutorial Player");
         HideObjectByName("Tap Tooltip");
+
+        // Menús y paneles interactivos del template
+        HideObjectByName("Hand Menu Setup");
+        HideObjectByName("Spatial Panel Manipulator");
+        HideObjectByName("Follow GameObject");
+        HideObjectByName("Spatial Panel Scroll");
+
+        // Elementos sueltos que a veces quedan visibles
+        HideObjectByName("Interaction Affordance");
+        HideObjectByName("Snap Volume");
     }
 
     private void HideObjectByName(string objectName)
