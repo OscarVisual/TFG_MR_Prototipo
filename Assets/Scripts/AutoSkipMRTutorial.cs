@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 public class AutoSkipMRTutorial : MonoBehaviour
 {
@@ -31,8 +32,11 @@ public class AutoSkipMRTutorial : MonoBehaviour
         // Dejamos tiempo para que el Skip active passthrough.
         yield return new WaitForSeconds(delayBeforeHideTutorial);
 
-        // Ahora sí desactivamos objetos visuales del tutorial.
+        // Ahora sí desactivamos objetos visuales y sistemas del template.
         HideTemplateTutorialObjects();
+
+        // Repetimos la limpieza un poco más por si el template crea planos tarde.
+        StartCoroutine(DisableARPlanesForAWhile());
     }
 
     private void MakeTemplateTutorialInvisible()
@@ -98,6 +102,47 @@ public class AutoSkipMRTutorial : MonoBehaviour
         // Elementos sueltos que a veces quedan visibles
         HideObjectByName("Interaction Affordance");
         HideObjectByName("Snap Volume");
+
+        // Sistemas del template que generan objetos/planos
+        HideObjectByName("Object Spawner");
+
+        // Este parece ser el cerebro del tutorial.
+        // Lo apagamos después del autoskip, no antes, para no romper la activación del passthrough.
+        HideObjectByName("Goal Manager");
+
+        DisableARPlanes();
+    }
+
+    private IEnumerator DisableARPlanesForAWhile()
+    {
+        float elapsed = 0f;
+        float duration = 3f;
+
+        while (elapsed < duration)
+        {
+            DisableARPlanes();
+            elapsed += 0.25f;
+            yield return new WaitForSeconds(0.25f);
+        }
+    }
+
+    private void DisableARPlanes()
+    {
+        ARPlaneManager[] planeManagers = FindObjectsOfType<ARPlaneManager>(true);
+
+        foreach (ARPlaneManager planeManager in planeManagers)
+        {
+            planeManager.enabled = false;
+            Debug.Log("AutoSkipMRTutorial: AR Plane Manager desactivado.");
+        }
+
+        ARPlane[] planes = FindObjectsOfType<ARPlane>(true);
+
+        foreach (ARPlane plane in planes)
+        {
+            plane.gameObject.SetActive(false);
+            Debug.Log("AutoSkipMRTutorial: ARPlane ocultado.");
+        }
     }
 
     private void HideObjectByName(string objectName)
