@@ -9,7 +9,7 @@ public class InterlocutorAnchorPlacer : MonoBehaviour
     [SerializeField] private GameObject profileCardsGroup;
     [SerializeField] private GameObject debugSphere;
 
-    [Header("Colocación")]
+    [Header("Colocación manual")]
     [SerializeField] private float distanceFromUser = 2.0f;
     [SerializeField] private float verticalOffset = 0.0f;
 
@@ -50,7 +50,7 @@ public class InterlocutorAnchorPlacer : MonoBehaviour
         }
     }
 
-    private void PlaceInterlocutorInFrontOfUser()
+    public void PlaceInterlocutorInFrontOfUser()
     {
         ResolveCameraIfNeeded();
 
@@ -60,31 +60,60 @@ public class InterlocutorAnchorPlacer : MonoBehaviour
             return;
         }
 
-        Vector3 forward = userCamera.forward;
-        forward.y = 0f;
+        Vector3 targetPosition = GetPositionInUserLookDirection();
 
-        if (forward.sqrMagnitude < 0.001f)
-        {
-            forward = userCamera.forward;
-        }
+        PlaceInterlocutorAtWorldPosition(targetPosition, true);
 
-        forward.Normalize();
-
-        Vector3 targetPosition = userCamera.position + forward * distanceFromUser;
-        targetPosition.y = userCamera.position.y + verticalOffset;
-
-        transform.position = targetPosition;
-        transform.rotation = Quaternion.identity;
-
-        Debug.Log("InterlocutorAnchorPlacer: interlocutor colocado delante del usuario.");
+        Debug.Log("InterlocutorAnchorPlacer: interlocutor colocado en la dirección de la mirada.");
     }
 
-    private void ShowProfileCards()
+    public void PlaceInterlocutorAtWorldPosition(Vector3 worldPosition, bool showCards = true)
+    {
+        transform.position = worldPosition;
+        transform.rotation = Quaternion.identity;
+
+        if (showCards)
+        {
+            ShowProfileCards();
+        }
+
+        Debug.Log("InterlocutorAnchorPlacer: interlocutor colocado en posición del mundo: " + worldPosition);
+    }
+
+    public void ShowProfileCards()
     {
         if (profileCardsGroup != null)
         {
             profileCardsGroup.SetActive(true);
         }
+    }
+
+    public void HideProfileCards()
+    {
+        if (profileCardsGroup != null)
+        {
+            profileCardsGroup.SetActive(false);
+        }
+    }
+
+    public void SetDebugSphereVisible(bool isVisible)
+    {
+        if (debugSphere != null)
+        {
+            debugSphere.SetActive(isVisible);
+        }
+    }
+
+    private Vector3 GetPositionInUserLookDirection()
+    {
+        Vector3 forward = userCamera.forward.normalized;
+
+        Vector3 targetPosition = userCamera.position + forward * distanceFromUser;
+
+        // Ajuste vertical opcional desde el Inspector.
+        targetPosition.y += verticalOffset;
+
+        return targetPosition;
     }
 
     private bool WasPrimaryButtonPressedThisFrame()
