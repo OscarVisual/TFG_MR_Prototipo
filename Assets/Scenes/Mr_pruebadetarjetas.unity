@@ -632,6 +632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 194039371}
+  - component: {fileID: 194039372}
   m_Layer: 0
   m_Name: Test_interlocutor_ficticio
   m_TagString: Untagged
@@ -656,6 +657,26 @@ Transform:
   - {fileID: 1850137088}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &194039372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194039370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ccb956d9912af84092157cd012ae622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userCamera: {fileID: 248358149}
+  profileCardsGroup: {fileID: 1850137087}
+  debugSphere: {fileID: 681671571}
+  distanceFromUser: 2
+  verticalOffset: 0
+  hideCardsOnStart: 1
+  hideDebugSphereOnStart: 1
+  placeAutomaticallyOnStart: 0
 --- !u!4 &248358149 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6484816944661230505, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
