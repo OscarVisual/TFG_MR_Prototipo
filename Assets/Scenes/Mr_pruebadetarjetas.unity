@@ -431,7 +431,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Afinidad: alta\nRelaci\xF3n cercana (novios)\nConfianza elevada"
+  m_text: "Afinidad: alta\nRelaci\xF3n cercana\nConfianza elevada"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1227,7 +1227,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Intereses:\nDibujo, M\xFAsica, Arqueolog\xEDa"
+  m_text: "Intereses:\nDibujo, m\xFAsica, arqueolog\xEDa"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1927,7 +1927,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Recuerdo reciente:\nHablasteis sobre su \xFAltima excavaci\xF3n arqueol\xF3gica"
+  m_text: "Recuerdo reciente:\nHablasteis sobre su \xFAltima\nexcavaci\xF3n arqueol\xF3gica"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2132,7 +2132,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Yolanda Nuria (Yoli)\n24 a\xF1os\nPerfil preseleccionado"
+  m_text: "Yolanda Nuria\n24 a\xF1os\nPerfil preseleccionado"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3643,8 +3643,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Sugerencia:\nPreg\xFAntale qu\xE9 fue lo que m\xE1s le gust\xF3 de la
-    excavaci\xF3n"
+  m_text: "Sugerencia:\nPreg\xFAntale qu\xE9 fue lo que\nm\xE1s le gust\xF3 de la\nexcavaci\xF3n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3919,6 +3918,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1850137088}
   - component: {fileID: 1850137089}
+  - component: {fileID: 1850137090}
   m_Layer: 0
   m_Name: ProfileCards_Group
   m_TagString: Untagged
@@ -3958,6 +3958,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b88f8620c879974389bb9b512986ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1850137090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850137087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 352b266960e531b43ac39de302119710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identityText: {fileID: 1124756855}
+  affinityText: {fileID: 109879845}
+  interestsText: {fileID: 636167147}
+  memoryText: {fileID: 996396379}
+  suggestionText: {fileID: 1760373306}
+  personName: Yolanda Nuria
+  age: 24
+  affinity: alta
+  relationship: "Relaci\xF3n cercana"
+  trustLevel: Confianza elevada
+  interests: "Dibujo, m\xFAsica, arqueolog\xEDa"
+  memory: "Hablasteis sobre su \xFAltima\nexcavaci\xF3n arqueol\xF3gica"
+  suggestion: "Preg\xFAntale qu\xE9 fue lo que\nm\xE1s le gust\xF3 de la\nexcavaci\xF3n"
 --- !u!114 &1891673207 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7800413991915503276, guid: 69eb4eecbd2100a408ab74fc543b405c, type: 3}
