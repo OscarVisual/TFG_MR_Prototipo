@@ -671,7 +671,7 @@ MonoBehaviour:
   RequestedResolution: {x: 1280, y: 960}
   _maxFramerate: 60
   TargetMaterial: {fileID: 2100000, guid: 2b141f556648dc740bdc1e09d77f885f, type: 2}
-  _texturePropertyName: _BaseMap
+  _texturePropertyName: _MainTex
 --- !u!1 &194039370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,12 +1690,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713165132}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.4, z: 1.5}
-  m_LocalScale: {x: 0.6, y: 0.45, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.15, z: 1.5}
+  m_LocalScale: {x: 0.45, y: 0.32, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 248358149}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &744734200
 GameObject:
@@ -5092,7 +5092,10 @@ PrefabInstance:
       objectReference: {fileID: 827510676}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6484816944661230505, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 713165136}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86a5bf68cb51f4e44bd3893bd22a2ba7, type: 3}
 --- !u!222 &3355178504154724485
@@ -6128,4 +6131,3 @@ SceneRoots:
   - {fileID: 194039371}
   - {fileID: 1633199255}
   - {fileID: 144698917}
-  - {fileID: 713165136}
