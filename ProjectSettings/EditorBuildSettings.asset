@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 55daccc09a3b69647bbab145b54a3ab3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Mr_pruebadetarjetas.unity
     guid: fca5576b0cab2014389d4372305af082
+  - enabled: 1
+    path: Assets/Scenes/MR_facedetection_test.unity
+    guid: 3b46833d16e2c0140baf1fdee77badac
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 18e89ad3146267a4a87cac721d527752, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}
