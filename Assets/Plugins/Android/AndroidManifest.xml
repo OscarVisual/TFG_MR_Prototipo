@@ -8,6 +8,9 @@
         android:name="com.oculus.feature.BOUNDARYLESS_APP"
         android:required="true" />
 
+	<uses-permission
+        android:name="horizonos.permission.HEADSET_CAMERA" />
+
 	<application>
 		<activity
             android:name="com.unity3d.player.UnityPlayerActivity"
