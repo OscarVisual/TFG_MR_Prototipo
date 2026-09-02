@@ -12,9 +12,16 @@
         android:name="horizonos.permission.HEADSET_CAMERA" />
 
 	<application>
+
+		<meta-data
+            android:name="com.oculus.ossplash.background"
+            android:value="passthrough-contextual" />
+
 		<activity
-            android:name="com.unity3d.player.UnityPlayerActivity"
-            android:theme="@style/UnityThemeSelector">
+            android:name="com.unity3d.player.UnityPlayerGameActivity"
+            android:theme="@style/BaseUnityGameActivityTheme"
+            android:exported="true"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -22,10 +29,11 @@
 			</intent-filter>
 
 			<meta-data
-                android:name="unityplayer.UnityActivity"
-                android:value="true" />
+                android:name="android.app.lib_name"
+                android:value="game" />
 
 		</activity>
+
 	</application>
 
 </manifest>
