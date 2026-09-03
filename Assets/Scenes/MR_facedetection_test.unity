@@ -912,7 +912,7 @@ MonoBehaviour:
   placementDistance: 2
   verticalOffset: 0
   inputUsesImageTopLeftOrigin: 1
-  testWithSecondaryButton: 1
+  testWithSecondaryButton: 0
   placeSimulatedFaceOnStart: 0
   startDelay: 1
 --- !u!4 &324547416
@@ -2318,6 +2318,8 @@ MonoBehaviour:
   iouThreshold: 0.6
   inferenceInterval: 0.25
   anchorController: {fileID: 324547415}
+  interlocutorAnchorPlacer: {fileID: 194039372}
+  placementDistance: 2
   verticalPointInPersonBox: 0.18
   showCardsAfterPlacement: 1
   logDetections: 1

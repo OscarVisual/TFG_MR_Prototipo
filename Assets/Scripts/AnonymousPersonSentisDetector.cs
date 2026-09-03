@@ -29,6 +29,10 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
 
     [Header("Connection with our card anchor controller")]
     [SerializeField] private MonoBehaviour anchorController;
+    [SerializeField] private InterlocutorAnchorPlacer interlocutorAnchorPlacer;
+
+    [SerializeField, Min(0.5f)]
+    private float placementDistance = 2f;
 
     [Tooltip("0 = top of person box, 0.5 = center, 1 = bottom. Around 0.15-0.25 should point near head/upper torso.")]
     [SerializeField, Range(0f, 1f)]
@@ -254,10 +258,10 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
         {
             Vector2 normalizedImagePoint = GetNormalizedPointFromPersonBox(bestPerson.box);
 
-            SendPointToAnchorController(
-                normalizedImagePoint.x,
-                normalizedImagePoint.y
-            );
+            SendPointToInterlocutorPlacer(
+           normalizedImagePoint.x,
+           normalizedImagePoint.y
+       );
 
             SetStatus(
                 $"PERSON DETECTED\n" +
@@ -435,7 +439,36 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
             );
         }
     }
+    private void SendPointToInterlocutorPlacer(float normalizedX, float normalizedY)
+    {
+        if (interlocutorAnchorPlacer == null)
+        {
+            SetStatus("PERSON DETECTED, pero falta InterlocutorAnchorPlacer en el Inspector.");
+            return;
+        }
 
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null)
+        {
+            SetStatus("PERSON DETECTED, pero no encuentro Main Camera.");
+            return;
+        }
+
+        Vector3 viewportPoint = new Vector3(
+            Mathf.Clamp01(normalizedX),
+            Mathf.Clamp01(1f - normalizedY),
+            0f
+        );
+
+        Ray ray = mainCamera.ViewportPointToRay(viewportPoint);
+        Vector3 worldPosition = ray.GetPoint(placementDistance);
+
+        interlocutorAnchorPlacer.PlaceInterlocutorAtWorldPosition(
+            worldPosition,
+            showCardsAfterPlacement
+        );
+    }
     private void SendPointToAnchorController(float normalizedX, float normalizedY)
     {
         if (anchorController == null)
