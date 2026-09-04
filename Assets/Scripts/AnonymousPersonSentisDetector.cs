@@ -19,7 +19,7 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
     [SerializeField] private BackendType backend = BackendType.CPU;
 
     [SerializeField, Range(0.01f, 1f)]
-    private float scoreThreshold = 0.15f;
+    private float scoreThreshold = 0.45f;
 
     [SerializeField, Range(0.01f, 1f)]
     private float iouThreshold = 0.6f;
@@ -34,16 +34,24 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
     [SerializeField, Min(0.5f)]
     private float placementDistance = 2f;
 
-    [Tooltip("0 = top of person box, 0.5 = center, 1 = bottom. Around 0.15-0.25 should point near head/upper torso.")]
+    [Tooltip("0 = top of person box, 0.5 = center, 1 = bottom. Around 0.60 places the cards lower around the body.")]
     [SerializeField, Range(0f, 1f)]
-    private float verticalPointInPersonBox = 0.18f;
+    private float verticalPointInPersonBox = 0.60f;
 
     [SerializeField] private bool showCardsAfterPlacement = true;
     [SerializeField] private bool logDetections = true;
 
     [Header("Debug")]
     [SerializeField] private TMP_Text debugText;
-    [SerializeField] private bool showDebugText = true;
+    [SerializeField] private bool showDebugText = false;
+
+    [Header("Auto hide cards")]
+    [SerializeField] private bool hideCardsWhenPersonLost = true;
+
+    [SerializeField, Min(0.1f)]
+    private float hideAfterSecondsWithoutPerson = 1.5f;
+
+    [SerializeField] private GameObject cardsRootToHide;
 
     private Worker worker;
     private Vector2Int inputSize;
@@ -55,6 +63,9 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
 
     private string[] labels = Array.Empty<string>();
     private int inferenceCount = 0;
+
+    private float lastPersonDetectionTime = -999f;
+    private bool detectorHasShownCards = false;
 
     private readonly List<Detection> candidatePersonDetections = new();
     private readonly List<Detection> keptPersonDetections = new();
@@ -256,12 +267,17 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
 
         if (hasBestPerson)
         {
+            lastPersonDetectionTime = Time.time;
+            detectorHasShownCards = true;
+
+            SetCardsVisible(true);
+
             Vector2 normalizedImagePoint = GetNormalizedPointFromPersonBox(bestPerson.box);
 
             SendPointToInterlocutorPlacer(
-           normalizedImagePoint.x,
-           normalizedImagePoint.y
-       );
+                normalizedImagePoint.x,
+                normalizedImagePoint.y
+            );
 
             SetStatus(
                 $"PERSON DETECTED\n" +
@@ -276,6 +292,8 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
             string bestInfo = hasBestAny
                 ? $"{GetLabel(bestAny.classId)} ({bestAny.classId}) score {bestAny.score:F2}"
                 : "none";
+
+            TryHideCardsIfPersonLost();
 
             SetStatus(
                 $"NO PERSON\n" +
@@ -439,6 +457,40 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
             );
         }
     }
+
+    private void TryHideCardsIfPersonLost()
+    {
+        if (!hideCardsWhenPersonLost)
+        {
+            return;
+        }
+
+        if (!detectorHasShownCards)
+        {
+            return;
+        }
+
+        float secondsSinceLastDetection = Time.time - lastPersonDetectionTime;
+
+        if (secondsSinceLastDetection >= hideAfterSecondsWithoutPerson)
+        {
+            SetCardsVisible(false);
+        }
+    }
+
+    private void SetCardsVisible(bool visible)
+    {
+        if (cardsRootToHide == null)
+        {
+            return;
+        }
+
+        if (cardsRootToHide.activeSelf != visible)
+        {
+            cardsRootToHide.SetActive(visible);
+        }
+    }
+
     private void SendPointToInterlocutorPlacer(float normalizedX, float normalizedY)
     {
         if (interlocutorAnchorPlacer == null)
@@ -469,6 +521,7 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
             showCardsAfterPlacement
         );
     }
+
     private void SendPointToAnchorController(float normalizedX, float normalizedY)
     {
         if (anchorController == null)

@@ -2320,11 +2320,14 @@ MonoBehaviour:
   anchorController: {fileID: 324547415}
   interlocutorAnchorPlacer: {fileID: 194039372}
   placementDistance: 2
-  verticalPointInPersonBox: 0.6
+  verticalPointInPersonBox: 0.63
   showCardsAfterPlacement: 1
   logDetections: 1
   debugText: {fileID: 1184564242}
   showDebugText: 0
+  hideCardsWhenPersonLost: 1
+  hideAfterSecondsWithoutPerson: 1.5
+  cardsRootToHide: {fileID: 1850137087}
 --- !u!4 &1036470743
 Transform:
   m_ObjectHideFlags: 0
@@ -2700,7 +2703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1184564242
 MonoBehaviour:
   m_ObjectHideFlags: 0
