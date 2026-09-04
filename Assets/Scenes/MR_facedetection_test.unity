@@ -2314,17 +2314,17 @@ MonoBehaviour:
   sentisModel: {fileID: 5022602860645237092, guid: 69ab50aef18ae412cac4b305492d527c, type: 3}
   labelsAsset: {fileID: 4900000, guid: c01c64149c7930b45a76559caabd5c78, type: 3}
   backend: 512
-  scoreThreshold: 0.15
+  scoreThreshold: 0.5
   iouThreshold: 0.6
   inferenceInterval: 0.25
   anchorController: {fileID: 324547415}
   interlocutorAnchorPlacer: {fileID: 194039372}
   placementDistance: 2
-  verticalPointInPersonBox: 0.18
+  verticalPointInPersonBox: 0.6
   showCardsAfterPlacement: 1
   logDetections: 1
   debugText: {fileID: 1184564242}
-  showDebugText: 1
+  showDebugText: 0
 --- !u!4 &1036470743
 Transform:
   m_ObjectHideFlags: 0
