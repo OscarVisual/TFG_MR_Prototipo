@@ -34,6 +34,19 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
     [SerializeField, Min(0.5f)]
     private float placementDistance = 2f;
 
+    [Header("Depth raycast / real-world placement")]
+    [SerializeField] private EnvironmentRaycastManager environmentRaycastManager;
+    [SerializeField] private bool useDepthRaycast = true;
+    [SerializeField] private bool fallbackToFixedDistanceWhenDepthFails = true;
+
+    [SerializeField, Min(0.5f)]
+    private float depthRaycastMaxDistance = 5f;
+
+    [SerializeField]
+    private Vector3 depthPlacementOffset = Vector3.zero;
+
+    [SerializeField] private bool logDepthRaycast = true;
+
     [Tooltip("0 = top of person box, 0.5 = center, 1 = bottom. Around 0.60 places the cards lower around the body.")]
     [SerializeField, Range(0f, 1f)]
     private float verticalPointInPersonBox = 0.60f;
@@ -499,6 +512,102 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
             return;
         }
 
+        Vector2 viewportPoint = new Vector2(
+            Mathf.Clamp01(normalizedX),
+            Mathf.Clamp01(1f - normalizedY)
+        );
+
+        bool placedWithDepth = TryPlaceUsingDepthRaycast(viewportPoint);
+
+        if (placedWithDepth)
+        {
+            return;
+        }
+
+        if (!fallbackToFixedDistanceWhenDepthFails)
+        {
+            SetStatus("PERSON DETECTED, pero no se pudo colocar con profundidad y el fallback está desactivado.");
+            return;
+        }
+
+        PlaceUsingFixedDistance(viewportPoint);
+    }
+
+    private bool TryPlaceUsingDepthRaycast(Vector2 viewportPoint)
+    {
+        if (!useDepthRaycast)
+        {
+            return false;
+        }
+
+        if (cameraAccess == null)
+        {
+            if (logDepthRaycast)
+            {
+                Debug.LogWarning($"{nameof(AnonymousPersonSentisDetector)}: no hay CameraAccess para depth raycast.");
+            }
+
+            return false;
+        }
+
+        if (environmentRaycastManager == null)
+        {
+            if (logDepthRaycast)
+            {
+                Debug.LogWarning($"{nameof(AnonymousPersonSentisDetector)}: EnvironmentRaycastManager no asignado.");
+            }
+
+            return false;
+        }
+
+        if (!EnvironmentRaycastManager.IsSupported)
+        {
+            if (logDepthRaycast)
+            {
+                Debug.LogWarning($"{nameof(AnonymousPersonSentisDetector)}: EnvironmentRaycastManager no soportado en este dispositivo/runtime.");
+            }
+
+            return false;
+        }
+
+        Ray ray = cameraAccess.ViewportPointToRay(viewportPoint);
+
+        bool hasHit = environmentRaycastManager.Raycast(
+            ray,
+            out EnvironmentRaycastHit hitInfo,
+            depthRaycastMaxDistance
+        );
+
+        if (!hasHit)
+        {
+            if (logDepthRaycast)
+            {
+                Debug.Log($"{nameof(AnonymousPersonSentisDetector)}: depth raycast sin hit. Uso fallback a distancia fija.");
+            }
+
+            return false;
+        }
+
+        Vector3 worldPosition = hitInfo.point + depthPlacementOffset;
+
+        interlocutorAnchorPlacer.PlaceInterlocutorAtWorldPosition(
+            worldPosition,
+            showCardsAfterPlacement
+        );
+
+        if (logDepthRaycast)
+        {
+            Debug.Log(
+                $"{nameof(AnonymousPersonSentisDetector)}: colocado con profundidad real. " +
+                $"Point: {worldPosition}, Normal: {hitInfo.normal}"
+            );
+        }
+
+        return true;
+    }
+
+    private void PlaceUsingFixedDistance(Vector2 viewportPoint)
+    {
         Camera mainCamera = Camera.main;
 
         if (mainCamera == null)
@@ -507,19 +616,21 @@ public class AnonymousPersonSentisDetector : MonoBehaviour
             return;
         }
 
-        Vector3 viewportPoint = new Vector3(
-            Mathf.Clamp01(normalizedX),
-            Mathf.Clamp01(1f - normalizedY),
-            0f
+        Ray ray = mainCamera.ViewportPointToRay(
+            new Vector3(viewportPoint.x, viewportPoint.y, 0f)
         );
 
-        Ray ray = mainCamera.ViewportPointToRay(viewportPoint);
         Vector3 worldPosition = ray.GetPoint(placementDistance);
 
         interlocutorAnchorPlacer.PlaceInterlocutorAtWorldPosition(
             worldPosition,
             showCardsAfterPlacement
         );
+
+        if (logDepthRaycast)
+        {
+            Debug.Log($"{nameof(AnonymousPersonSentisDetector)}: colocado con fallback a distancia fija.");
+        }
     }
 
     private void SendPointToAnchorController(float normalizedX, float normalizedY)

@@ -2104,6 +2104,51 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2451011294386125892, guid: 66d40221d132d04499855da9ce315f20, type: 3}
   m_PrefabInstance: {fileID: 1364055689}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &921419744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 921419746}
+  - component: {fileID: 921419745}
+  m_Layer: 0
+  m_Name: EnvioromentRaycast_Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &921419745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921419744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d8affdff7ba47d892cc734baac9ac71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: meta.xr.mrutilitykit::Meta.XR.EnvironmentRaycastManager
+  CustomTrackingSpace: {fileID: 0}
+--- !u!4 &921419746
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921419744}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &947786079
 GameObject:
   m_ObjectHideFlags: 0
@@ -2458,6 +2503,12 @@ MonoBehaviour:
   anchorController: {fileID: 324547415}
   interlocutorAnchorPlacer: {fileID: 194039372}
   placementDistance: 2
+  environmentRaycastManager: {fileID: 921419745}
+  useDepthRaycast: 1
+  fallbackToFixedDistanceWhenDepthFails: 1
+  depthRaycastMaxDistance: 5
+  depthPlacementOffset: {x: 0, y: 0, z: 0}
+  logDepthRaycast: 1
   verticalPointInPersonBox: 0.6
   showCardsAfterPlacement: 1
   logDetections: 1
@@ -6766,3 +6817,4 @@ SceneRoots:
   - {fileID: 324547416}
   - {fileID: 1036470743}
   - {fileID: 2088081176}
+  - {fileID: 921419746}
