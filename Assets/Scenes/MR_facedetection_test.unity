@@ -2507,7 +2507,7 @@ MonoBehaviour:
   useDepthRaycast: 1
   fallbackToFixedDistanceWhenDepthFails: 1
   depthRaycastMaxDistance: 5
-  depthPlacementOffset: {x: 0, y: 0, z: 0}
+  depthPlacementOffset: {x: 0, y: 0.15, z: 0}
   logDepthRaycast: 1
   verticalPointInPersonBox: 0.6
   showCardsAfterPlacement: 1
